@@ -31,3 +31,36 @@ class NetworkSessionSpy: NetworkSession{
         return request
     }
 }
+
+//MARK: - Testing -
+
+class TestFrameworkTests: XCTestCase{
+    
+    func test_get_Invalid_Result_On_Nil_Error_Response_Data(){
+        
+        let sut = URLSessionHttpClient(session: NetworkSessionSpy())
+        let url = URL(string: "https://google.com")!
+        let exp = expectation(description: "Waiting for response")
+        
+        sut.get(from: url){ result in
+            
+            switch result{
+            case .failure:
+                exp.fulfill()
+            default:
+                XCTFail("Unexpected failure")
+            }
+        }
+        wait(for: [exp], timeout: 1.0)
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+}
