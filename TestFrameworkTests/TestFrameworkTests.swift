@@ -81,8 +81,39 @@ class TestFrameworkTests: XCTestCase{
         }
         wait(for: [exp], timeout: 1.0)
     }
-    //MARK: - 
     
+    //MARK: - Enum with some error -
+    enum SomeError: Error{
+        case networkErr
+    }
+
+    //MARK: - Valid data with received error
+    func test_get_Valid_Result_On_Received_Error(){
+        
+        let url = URL(string: "https://google.com")!
+        let spy = NetworkSessionSpy()
+        let request = NetworkRequestSpy()
+        
+        //MARK: requests
+        request.data = nil
+        request.response = nil
+        request.error = SomeError.networkErr
+        spy.request = request
+        
+        let sut = URLSessionHttpClient(session: spy)
+        let exp = expectation(description: "Waiting for response")
+        
+        sut.get(from: url) { result in
+            switch result {
+            case let .failure(error):
+                XCTAssertEqual(error as? SomeError, SomeError.networkErr)
+                exp.fulfill()
+            default:
+                XCTFail("Unexpected failure")
+            }
+        }
+        wait(for: [exp], timeout: 1.0)
+    }
     
     
     
