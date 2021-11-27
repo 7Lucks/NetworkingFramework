@@ -53,6 +53,7 @@ class TestFrameworkTests: XCTestCase{
             }
         }
         wait(for: [exp], timeout: 1.0)
+        memoryLeakTrack(sut)
     }
     //MARK: -  Invalid result on nil data with response
     func test_get_Invalid_Result_On_Nil_Date_With_Response(){
@@ -80,6 +81,7 @@ class TestFrameworkTests: XCTestCase{
             }
         }
         wait(for: [exp], timeout: 1.0)
+        memoryLeakTrack(sut)
     }
     
     //MARK: - Enum with some error -
@@ -113,6 +115,7 @@ class TestFrameworkTests: XCTestCase{
             }
         }
         wait(for: [exp], timeout: 1.0)
+        memoryLeakTrack(sut)
     }
     //MARK: - Valid result on valid Data and Response
     func test_get_Valid_Result_On_Valid_Data_Response(){
@@ -144,6 +147,7 @@ class TestFrameworkTests: XCTestCase{
             
         }
         wait(for: [exp], timeout: 1.0)
+        memoryLeakTrack(sut)
     }
     
     //MARK: -  invalid result with valid data without response
@@ -167,15 +171,16 @@ class TestFrameworkTests: XCTestCase{
         sut.get(from: url) { result in
             
             switch result{
-                case .failure:
-                    exp.fulfill()
-                default:
-                    XCTFail("Unexpected failure")
-                }
+            case .failure:
+                exp.fulfill()
+            default:
+                XCTFail("Unexpected failure")
+            }
         }
         wait(for: [exp], timeout: 1.0)
+        memoryLeakTrack(sut)
     }
-
+    
     //MARK: - invalid result with walid Data and Error
     func test_get_Invalid_Result_On_Valid_Data_And_Error(){
         
@@ -197,13 +202,14 @@ class TestFrameworkTests: XCTestCase{
         sut.get(from: url) { result in
             
             switch result{
-                case .failure:
-                    exp.fulfill()
-                default:
-                    XCTFail("Unexpected failure")
-                }
+            case .failure:
+                exp.fulfill()
+            default:
+                XCTFail("Unexpected failure")
+            }
         }
         wait(for: [exp], timeout: 1.0)
+        memoryLeakTrack(sut)
     }
     
     //MARK: - invalid result with all valid - Data Error Response
@@ -227,13 +233,14 @@ class TestFrameworkTests: XCTestCase{
         sut.get(from: url) { result in
             
             switch result{
-                case .failure:
-                    exp.fulfill()
-                default:
-                    XCTFail("Unexpected failure")
-                }
+            case .failure:
+                exp.fulfill()
+            default:
+                XCTFail("Unexpected failure")
+            }
         }
         wait(for: [exp], timeout: 1.0)
+        memoryLeakTrack(sut)
     }
     //MARK: -
     func test_get_Invalid_Result_On_Valid_Response_Error_Data(){
@@ -256,13 +263,17 @@ class TestFrameworkTests: XCTestCase{
         sut.get(from: url) { result in
             
             switch result{
-                case .failure:
-                    exp.fulfill()
-                default:
-                    XCTFail("Unexpected failure")
-                }
+            case .failure:
+                exp.fulfill()
+            default:
+                XCTFail("Unexpected failure")
+            }
         }
         wait(for: [exp], timeout: 1.0)
+        memoryLeakTrack(sut)
     }
-    
+    //MARK: - memory leaks tracking
+    func memoryLeakTrack(_ instance: AnyObject, file: StaticString = #file, line: UInt = #line) {
+        addTeardownBlock { [weak instance] in XCTAssertNil(instance, "Potential leak.", file: file, line: line) }
+    }
 }
