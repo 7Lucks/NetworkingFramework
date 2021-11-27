@@ -11,6 +11,7 @@
 		6CAFF5DE27413759005C380E /* TestFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CAFF5D327413759005C380E /* TestFramework.framework */; };
 		6CAFF5E327413759005C380E /* TestFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CAFF5E227413759005C380E /* TestFrameworkTests.swift */; };
 		6CAFF5E427413759005C380E /* TestFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 6CAFF5D627413759005C380E /* TestFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6CC5EBCE275254160058DC51 /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC5EBCC275254130058DC51 /* HttpClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 		6CAFF5D727413759005C380E /* TestFramework.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = TestFramework.docc; sourceTree = "<group>"; };
 		6CAFF5DD27413759005C380E /* TestFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TestFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6CAFF5E227413759005C380E /* TestFrameworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFrameworkTests.swift; sourceTree = "<group>"; };
+		6CC5EBCC275254130058DC51 /* HttpClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				6CAFF5D627413759005C380E /* TestFramework.h */,
+				6CC5EBCC275254130058DC51 /* HttpClient.swift */,
 				6CAFF5D727413759005C380E /* TestFramework.docc */,
 			);
 			path = TestFramework;
@@ -194,6 +197,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CC5EBCE275254160058DC51 /* HttpClient.swift in Sources */,
 				6CAFF5D827413759005C380E /* TestFramework.docc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -398,6 +402,7 @@
 		6CAFF5EB27413759005C380E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BYS83TMS8Q;
@@ -419,6 +424,7 @@
 		6CAFF5EC27413759005C380E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = BYS83TMS8Q;
