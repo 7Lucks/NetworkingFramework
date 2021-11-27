@@ -36,6 +36,7 @@ class NetworkSessionSpy: NetworkSession{
 
 class TestFrameworkTests: XCTestCase{
     
+    //MARK: -  Invalid result with all nil data, response, error
     func test_get_Invalid_Result_On_Nil_Error_Response_Data(){
         
         let sut = URLSessionHttpClient(session: NetworkSessionSpy())
@@ -53,8 +54,34 @@ class TestFrameworkTests: XCTestCase{
         }
         wait(for: [exp], timeout: 1.0)
     }
-    
-    
+    //MARK: -  Invalid result on nil data with response
+    func test_get_Invalid_Result_On_Nil_Date_With_Response(){
+        
+        let url = URL(string: "https://google.com")!
+        let spy = NetworkSessionSpy()
+        let request = NetworkRequestSpy()
+        
+        //MARK: requests
+        request.data = nil
+        //MARK: response
+        let myResponse = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
+        spy.request = request
+        
+        let sut = URLSessionHttpClient(session: spy)
+        let exp = expectation(description: "Waiting for response")
+        
+        sut.get(from: url) { result in
+            
+            switch result{
+            case .failure:
+                exp.fulfill()
+            default:
+                XCTFail("Unexpected failure")
+            }
+        }
+        wait(for: [exp], timeout: 1.0)
+    }
+    //MARK: - 
     
     
     
