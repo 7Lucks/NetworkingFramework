@@ -8,26 +8,26 @@
 import XCTest
 @testable import TestFramework
 
-class TestFrameworkTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+//MARK: - request spy -
+class NetworkRequestSpy: NetworkRequest{
+    var data: Data?
+    var response: URLResponse?
+    var error: Error?
+    
+    var completion: ((Data?, URLResponse?, Error?) -> Void)?
+    
+    func resume() {
+        completion?(data, response, error)
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+}
+//MARK: -  session spy -
+class NetworkSessionSpy: NetworkSession{
+    
+    var request: NetworkRequestSpy = NetworkRequestSpy()
+    
+    func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> NetworkRequest {
+        request.completion = completionHandler
+        return request
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }
