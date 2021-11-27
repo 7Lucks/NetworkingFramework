@@ -70,7 +70,7 @@ class TestFrameworkTests: XCTestCase{
         let sut = URLSessionHttpClient(session: spy)
         let exp = expectation(description: "Waiting for response")
         
-        sut.get(from: url) { result in
+        sut.get(from: url){result in
             
             switch result{
             case .failure:
@@ -86,7 +86,7 @@ class TestFrameworkTests: XCTestCase{
     enum SomeError: Error{
         case networkErr
     }
-
+    
     //MARK: - Valid data with received error
     func test_get_Valid_Result_On_Received_Error(){
         
@@ -103,7 +103,7 @@ class TestFrameworkTests: XCTestCase{
         let sut = URLSessionHttpClient(session: spy)
         let exp = expectation(description: "Waiting for response")
         
-        sut.get(from: url) { result in
+        sut.get(from: url){ result in
             switch result {
             case let .failure(error):
                 XCTAssertEqual(error as? SomeError, SomeError.networkErr)
@@ -114,8 +114,37 @@ class TestFrameworkTests: XCTestCase{
         }
         wait(for: [exp], timeout: 1.0)
     }
-    
-    
+    //MARK: - Valid result on valid Data and Response
+    func test_get_Valid_Result_On_Valid_Data_Response(){
+        
+        let url = URL(string: "https://google.com")!
+        let myData = Data()
+        let spy = NetworkSessionSpy()
+        let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
+        var request = NetworkRequestSpy()
+        
+        //MARK: requests
+        request.data = myData
+        request.response = response
+        request.error = nil
+        spy.request = request
+        
+        let sut = URLSessionHttpClient(session: spy)
+        let exp = expectation(description: "Waiting for response")
+        
+        sut.get(from: url) { result in
+            switch result{
+            case let .success(data, myResponse):
+                XCTAssertEqual(myData, data)
+                XCTAssertEqual(myResponse, response)
+                exp.fulfill()
+            default:
+                XCTFail("Unexpected failure")
+            }
+            
+        }
+        wait(for: [exp], timeout: 1.0)
+    }
     
     
     
