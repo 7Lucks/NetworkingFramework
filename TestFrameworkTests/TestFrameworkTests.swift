@@ -176,8 +176,93 @@ class TestFrameworkTests: XCTestCase{
         wait(for: [exp], timeout: 1.0)
     }
 
+    //MARK: - invalid result with walid Data and Error
+    func test_get_Invalid_Result_On_Valid_Data_And_Error(){
+        
+        let url = URL(string: "https://google.com")!
+        let myData = Data()
+        let spy = NetworkSessionSpy()
+        let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
+        var request = NetworkRequestSpy()
+        
+        //MARK: requests
+        request.data = myData
+        request.response = nil
+        request.error = SomeError.networkErr
+        spy.request = request
+        
+        let sut = URLSessionHttpClient(session: spy)
+        let exp = expectation(description: "Waiting for response")
+        
+        sut.get(from: url) { result in
+            
+            switch result{
+                case .failure:
+                    exp.fulfill()
+                default:
+                    XCTFail("Unexpected failure")
+                }
+        }
+        wait(for: [exp], timeout: 1.0)
+    }
     
-    
-    
+    //MARK: - invalid result with all valid - Data Error Response
+    func test_get_Invalid_Result_On_Valid_Response_And_Error(){
+        
+        let url = URL(string: "https://google.com")!
+        let myData = Data()
+        let spy = NetworkSessionSpy()
+        let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
+        var request = NetworkRequestSpy()
+        
+        //MARK: requests
+        request.data = nil
+        request.response = response
+        request.error = SomeError.networkErr
+        spy.request = request
+        
+        let sut = URLSessionHttpClient(session: spy)
+        let exp = expectation(description: "Waiting for response")
+        
+        sut.get(from: url) { result in
+            
+            switch result{
+                case .failure:
+                    exp.fulfill()
+                default:
+                    XCTFail("Unexpected failure")
+                }
+        }
+        wait(for: [exp], timeout: 1.0)
+    }
+    //MARK: -
+    func test_get_Invalid_Result_On_Valid_Response_Error_Data(){
+        
+        let url = URL(string: "https://google.com")!
+        let myData = Data()
+        let spy = NetworkSessionSpy()
+        let response = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
+        var request = NetworkRequestSpy()
+        
+        //MARK: requests
+        request.data = myData
+        request.response = response
+        request.error = SomeError.networkErr
+        spy.request = request
+        
+        let sut = URLSessionHttpClient(session: spy)
+        let exp = expectation(description: "Waiting for response")
+        
+        sut.get(from: url) { result in
+            
+            switch result{
+                case .failure:
+                    exp.fulfill()
+                default:
+                    XCTFail("Unexpected failure")
+                }
+        }
+        wait(for: [exp], timeout: 1.0)
+    }
     
 }
